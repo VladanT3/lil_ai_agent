@@ -1,4 +1,5 @@
 import os
+import argparse
 from openai import OpenAI
 from dotenv import load_dotenv
 
@@ -7,13 +8,17 @@ api_key = os.environ.get("OPENROUTER_API_KEY")
 if api_key is None:
     raise RuntimeError("OPENROUTER_API_KEY env was not found.")
 
+parser = argparse.ArgumentParser(description="lil ai bot")
+parser.add_argument("prompt", type=str, help="The prompt to run.")
+args = parser.parse_args()
+
 client = OpenAI(base_url="https://openrouter.ai/api/v1", api_key=api_key)
 response = client.chat.completions.create(
     model="openrouter/free",
     messages=[
         {
             "role": "user",
-            "content": "What day is it today?"
+            "content": args.prompt
         }
     ]
 )
