@@ -13,14 +13,17 @@ parser.add_argument("prompt", type=str, help="The prompt to run.")
 args = parser.parse_args()
 
 client = OpenAI(base_url="https://openrouter.ai/api/v1", api_key=api_key)
+
+messages = [
+    {
+        "role": "user",
+        "content": args.prompt
+    }
+]
+
 response = client.chat.completions.create(
     model="openrouter/free",
-    messages=[
-        {
-            "role": "user",
-            "content": args.prompt
-        }
-    ]
+    messages=messages
 )
 if response.usage is not None:
     print(f"Prompt tokens: {response.usage.prompt_tokens}")
