@@ -9,8 +9,8 @@ def write_file(working_directory: str, file_path: str, content: str) -> str:
         if not is_path_valid:
             return f'Error: Cannot list "{file_path}" as it is outside the permitted working directory'
 
-        if os.path.isdir(file_path_abs):
-            return f'Error: Cannot write to "{file_path}" as it is a directory'
+        if not os.path.isfile(file_path_abs):
+            return f'Error: File not found or is not a regular file: "{file_path}"'
 
         os.makedirs(os.path.dirname(file_path_abs), exist_ok=True)
 
